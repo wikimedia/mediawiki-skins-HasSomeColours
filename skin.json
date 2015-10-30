@@ -1,0 +1,51 @@
+{
+	"name": "HasSomeColours",
+	"version": "0.1",
+	"author": "Isarra",
+	"url": "https://www.mediawiki.org/wiki/Skin:HasSomeColours",
+	"descriptionmsg": "hassomecolours-desc",
+	"namemsg": "skinname-hassomecolours",
+	"license-name": "GPL-2.0+",
+	"type": "skin",
+	"ValidSkinNames": {
+		"hassomecolours": "HasSomeColours"
+	},
+	"MessagesDirs": {
+		"HasSomeColours": [
+			"i18n"
+		]
+	},
+	"ResourceModules": {
+		"skins.hassomecolours": {
+			"class": "ResourceLoaderSkinModule",
+			"styles": {
+				"resources/libraries/normalise.css": {
+					"media": "screen"
+				},
+				"resources/screen-common.less": {
+					"media": "screen"
+				},
+				"resources/screen-desktop.less": {
+					"media": "screen and (min-width: 951px)"
+				},
+				"resources/screen-mobile.less": {
+					"media": "screen and (max-width: 950px)"
+				}
+			}
+		},
+		"skins.hassomecolours.js": {
+			"scripts": [
+				"resources/main.js"
+			]
+		}
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "",
+		"remoteSkinPath": "HasSomeColours"
+	},
+	"AutoloadClasses": {
+		"SkinHasSomeColours": "HasSomeColours.skin.php",
+		"HasSomeColoursTemplate": "HasSomeColoursTemplate.php"
+	},
+	"manifest_version": 1
+}
