@@ -5,7 +5,7 @@
 	"url": "https://www.mediawiki.org/wiki/Skin:HasSomeColours",
 	"descriptionmsg": "hassomecolours-desc",
 	"namemsg": "skinname-hassomecolours",
-	"license-name": "GPL-2.0+",
+	"license-name": "GPL-2.0-or-later",
 	"type": "skin",
 	"ValidSkinNames": {
 		"hassomecolours": "HasSomeColours"
