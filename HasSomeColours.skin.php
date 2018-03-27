@@ -6,7 +6,7 @@
  */
 class SkinHasSomeColours extends SkinTemplate {
 	public $skinname = 'hassomecolours', $stylename = 'HasSomeColours',
-		$template = 'HasSomeColoursTemplate', $useHeadElement = true;
+		$template = 'HasSomeColoursTemplate';
 
 	/**
 	 * Add CSS via ResourceLoader
