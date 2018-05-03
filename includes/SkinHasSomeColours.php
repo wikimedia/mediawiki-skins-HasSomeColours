@@ -5,8 +5,9 @@
  * @ingroup Skins
  */
 class SkinHasSomeColours extends SkinTemplate {
-	public $skinname = 'hassomecolours', $stylename = 'HasSomeColours',
-		$template = 'HasSomeColoursTemplate';
+	public $skinname = 'hassomecolours';
+	public $stylename = 'HasSomeColours';
+	public $template = 'HasSomeColoursTemplate';
 
 	/**
 	 * Add CSS via ResourceLoader
@@ -16,8 +17,10 @@ class SkinHasSomeColours extends SkinTemplate {
 	function setupSkinUserCss( OutputPage $out ) {
 		parent::setupSkinUserCss( $out );
 
-		$out->addMeta( 'viewport', 'width=device-width, initial-scale=1.0' );
-
+		$out->addMeta( 'viewport',
+			'width=device-width, initial-scale=1.0, ' .
+			'user-scalable=yes, minimum-scale=0.25, maximum-scale=5.0'
+		);
 		$out->addModuleStyles( array(
 			'mediawiki.skinning.content.externallinks',
 			'skins.hassomecolours'

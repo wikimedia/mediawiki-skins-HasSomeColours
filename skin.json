@@ -44,8 +44,8 @@
 		"remoteSkinPath": "HasSomeColours"
 	},
 	"AutoloadClasses": {
-		"SkinHasSomeColours": "HasSomeColours.skin.php",
-		"HasSomeColoursTemplate": "HasSomeColoursTemplate.php"
+		"SkinHasSomeColours": "includes/SkinHasSomeColours.php",
+		"HasSomeColoursTemplate": "includes/HasSomeColoursTemplate.php"
 	},
 	"manifest_version": 1
 }

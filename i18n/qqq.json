@@ -3,5 +3,6 @@
 		"authors": [ "..." ]
 	},
 	"skinname-hassomecolours": "{{optional}}",
-	"hassomecolours-desc": "{{desc|what=skin|name=HasSomeColours|url=https://www.mediawiki.org/wiki/Skin:HasSomeColours}}"
+	"hassomecolours-desc": "{{desc|what=skin|name=HasSomeColours|url=https://www.mediawiki.org/wiki/Skin:HasSomeColours}}",
+	"global-links": "Header for custom corner navigation menu, probably containing global links"
 }
