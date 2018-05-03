@@ -50,9 +50,6 @@ b {
 	padding-bottom: .25em;
 	overflow: hidden;
 }
-h1.firstHeading {
-	overflow: visible;
-}
 .mw-editsection {
 	font-weight: @light;
 }
@@ -185,9 +182,9 @@ h1.firstHeading {
 	h3 {
 		padding-top: @borders;
 		padding-bottom: .25em;
-		border-color: @grey2;
+		border-color: @cyan;
 	}
-	div:first-child h3 {
+	#mw-sidebar div:first-child h3 {
 		margin-top: 0;
 	}
 
@@ -202,7 +199,8 @@ h1.firstHeading {
 }
 
 h1.firstHeading {
-	margin-top: .5em;
+	overflow: visible;
+	margin-top: 1em;
 }
 
 #page-tools {
@@ -276,6 +274,9 @@ h1.firstHeading {
 	padding: 0 1.5em 1em 0;
 
 }
+.thumbimage {
+	border: solid 1px @grey1;
+}
 .thumbcaption {
 	font-size: 95%;
 	padding: 0.5em 0;
@@ -288,7 +289,7 @@ ul#filetoc,
 .toc,
 .mw-warning {
 	display: inline-block;
-	padding: 1.25em 1.75em;
+	padding: 1.25em 0;
 	margin: 1em 0;
 	font-size: 90%;
 

@@ -55,12 +55,19 @@ class HasSomeColoursTemplate extends BaseTemplate {
 
 		$html .= Html::openElement( 'div', [ 'id' => 'mw-content' ] );
 		$html .= Html::openElement( 'div', [ 'class' => 'main-column' ] );
+
 		// Site navigation/sidebar
-		$html .= Html::rawElement(
-			'div',
-			[ 'id' => 'site-navigation' ],
-			$this->getSiteNavigation()
-		);
+
+		$html .= Html::openElement( 'div', [ 'id' => 'site-navigation' ] );
+		$html .= Html::rawElement( 'div', [ 'id' => 'mw-sidebar' ], $this->getSiteNavigation() );
+		// Toolbox
+		$html .= $this->getPortlet( 'tb', $this->getToolbox(), 'toolbox', [ 'hooks' => 'SkinTemplateToolboxEnd' ] );
+		// Languages
+		if ( $this->data['language_urls'] !== false ) {
+			$html .= $this->getPortlet( 'lang', $this->data['language_urls'], 'otherlanguages' );
+		}
+		$html .= Html::closeElement( 'div' );
+
 		// Page editing and tools
 		$html .= Html::openElement( 'div', [ 'id' => 'page-block' ] );
 		$html .= Html::rawElement(
@@ -185,9 +192,11 @@ class HasSomeColoursTemplate extends BaseTemplate {
 		$html = '';
 
 		$sidebar = $this->getSidebar();
+
+		// Do these elsewhere
 		$sidebar['SEARCH'] = false;
-		$sidebar['TOOLBOX'] = true;
-		$sidebar['LANGUAGES'] = true;
+		$sidebar['TOOLBOX'] = false;
+		$sidebar['LANGUAGES'] = false;
 
 		foreach ( $sidebar as $name => $content ) {
 			if ( $content === false ) {
@@ -196,33 +205,21 @@ class HasSomeColoursTemplate extends BaseTemplate {
 			// Numeric strings gets an integer when set as key, cast back - T73639
 			$name = (string)$name;
 
-			switch ( $name ) {
-				case 'TOOLBOX':
-					$html .= $this->getPortlet( 'tb', $this->getToolbox(), 'toolbox', [ 'hooks' => 'SkinTemplateToolboxEnd' ] );
-					break;
-				case 'LANGUAGES':
-					if ( $this->data['language_urls'] !== false ) {
-						$html .= $this->getPortlet( 'lang', $this->data['language_urls'], 'otherlanguages' );
-					}
-					break;
-				default:
-					$html .= $this->getPortlet( $name, $content['content'] );
-					break;
-			}
+			$html .= $this->getPortlet( $name, $content['content'] );
 		}
 		return $html;
 	}
 
 	/**
 	 * Print arbitrary block of navigation
-	 * Message parsing is limited to first 10 lines only for this skin.
+	 * Message parsing is limited to first 15 lines only for this skin.
 	 *
 	 * @param string $linksMessage
 	 * @param string $id
 	 */
 	protected function getNavigation( $linksMessage, $id ) {
 		$message = trim(  wfMessage( $linksMessage )->text() );
-		$lines = array_slice( explode( "\n", $message ), 0, 10 );
+		$lines = array_slice( explode( "\n", $message ), 0, 15 );
 		$links = [];
 		foreach ( $lines as $line ) {
 			// ignore empty lines
