@@ -21,10 +21,10 @@ class SkinHasSomeColours extends SkinTemplate {
 			'width=device-width, initial-scale=1.0, ' .
 			'user-scalable=yes, minimum-scale=0.25, maximum-scale=5.0'
 		);
-		$out->addModuleStyles( array(
+		$out->addModuleStyles( [
 			'mediawiki.skinning.content.externallinks',
 			'skins.hassomecolours'
-		) );
-		$out->addModules( array( 'skins.hassomecolours.js' ) );
+		] );
+		$out->addModules( [ 'skins.hassomecolours.js' ] );
 	}
 }

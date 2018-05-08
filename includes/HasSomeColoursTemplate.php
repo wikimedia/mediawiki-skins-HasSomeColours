@@ -33,7 +33,8 @@ class HasSomeColoursTemplate extends BaseTemplate {
 				'div',
 				[ 'id' => 'global-navigation' ],
 				$this->getGlobalLinks()
-			)
+			) .
+			$this->getClear()
 		);
 		$html .= Html::closeElement( 'div' );
 		$html .= Html::closeElement( 'div' );
@@ -42,6 +43,7 @@ class HasSomeColoursTemplate extends BaseTemplate {
 		$html .= Html::rawElement( 'div', [ 'class' => 'main-column' ],
 			$this->getSearch() .
 			$this->getLogo() .
+			$this->getClear() .
 			$this->getIfExists( 'sitenotice', [
 				'wrapper' => 'div',
 				'parameters' => [ 'id' => 'siteNotice' ]
@@ -49,7 +51,8 @@ class HasSomeColoursTemplate extends BaseTemplate {
 			$this->getIfExists( 'newtalk', [
 				'wrapper' => 'div',
 				'parameters' => [ 'class' => 'usermessage' ]
-			] )
+			] ) .
+			$this->getClear()
 		);
 		$html .= Html::closeElement( 'div' );
 
