@@ -93,7 +93,7 @@ class HasSomeColoursTemplate extends BaseTemplate {
 			Html::rawElement( 'div', [ 'class' => 'mw-body-content' ],
 				Html::rawElement( 'div', [ 'id' => 'contentSub' ],
 					$this->getIfExists( 'subtitle', [ 'wrapper' => 'p' ] ) .
-					Html::rawelement ( 'p', [], $this->get( 'undelete' ) )
+					Html::rawElement ( 'p', [], $this->get( 'undelete' ) )
 				) .
 				$this->get( 'bodycontent' ) .
 				$this->getClear() .
@@ -169,7 +169,7 @@ class HasSomeColoursTemplate extends BaseTemplate {
 			]
 		);
 		$html .= Html::hidden( 'title', htmlspecialchars( $this->get( 'searchtitle' ) ) );
-		$html .= Html::rawelement(
+		$html .= Html::rawElement(
 			'h3',
 			[],
 			Html::label( $this->getMsg( 'search' )->escaped(), 'searchInput' )
