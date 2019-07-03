@@ -162,13 +162,13 @@ class HasSomeColoursTemplate extends BaseTemplate {
 		$html = Html::openElement(
 			'form',
 			[
-				'action' => htmlspecialchars( $this->get( 'wgScript' ) ),
+				'action' => $this->get( 'wgScript' ),
 				'role' => 'search',
 				'class' => 'mw-portlet',
 				'id' => 'p-search'
 			]
 		);
-		$html .= Html::hidden( 'title', htmlspecialchars( $this->get( 'searchtitle' ) ) );
+		$html .= Html::hidden( 'title', $this->get( 'searchtitle' ) );
 		$html .= Html::rawElement(
 			'h3',
 			[],
