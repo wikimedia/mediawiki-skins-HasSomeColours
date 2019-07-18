@@ -310,12 +310,16 @@ class HasSomeColoursTemplate extends BaseTemplate {
 		// if using a language where this is applicable.
 		$html .= $this->getPortlet(
 			'variants',
-			$this->data['content_navigation']['variants']
+			$this->data['content_navigation']['variants'],
+			null,
+			[ 'extra-classes' => 'tool-dropdown' ]
 		);
 		// Other actions for the page: move, delete, protect, everything else
 		$html .= $this->getPortlet(
 			'actions',
-			$this->data['content_navigation']['actions']
+			$this->data['content_navigation']['actions'],
+			null,
+			[ 'extra-classes' => 'tool-dropdown' ]
 		);
 		// 'View' actions for the page: view, edit, view history, etc
 		$html .= $this->getPortlet(
