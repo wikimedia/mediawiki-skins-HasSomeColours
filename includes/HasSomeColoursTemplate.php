@@ -78,7 +78,7 @@ class HasSomeColoursTemplate extends BaseTemplate {
 			[ 'id' => 'page-tools' ],
 			$this->getPageLinks()
 		);
-		$html .= Html::rawElement( 'div', [ 'class' => 'mw-body', 'role' => 'main' ],
+		$html .= Html::rawElement( 'div', [ 'id' => 'content', 'class' => 'mw-body', 'role' => 'main' ],
 			$this->getIndicators() .
 			Html::rawElement( 'h1',
 				[
