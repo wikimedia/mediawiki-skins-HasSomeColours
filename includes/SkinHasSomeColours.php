@@ -12,9 +12,9 @@ class SkinHasSomeColours extends SkinTemplate {
 	/**
 	 * Add CSS via ResourceLoader
 	 *
-	 * @param $out OutputPage
+	 * @param OutputPage $out
 	 */
-	function setupSkinUserCss( OutputPage $out ) {
+	public function setupSkinUserCss( OutputPage $out ) {
 		parent::setupSkinUserCss( $out );
 
 		$out->addMeta( 'viewport',
