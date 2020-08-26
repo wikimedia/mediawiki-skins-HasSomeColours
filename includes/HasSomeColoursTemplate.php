@@ -93,7 +93,7 @@ class HasSomeColoursTemplate extends BaseTemplate {
 			Html::rawElement( 'div', [ 'class' => 'mw-body-content' ],
 				Html::rawElement( 'div', [ 'id' => 'contentSub' ],
 					$this->getIfExists( 'subtitle', [ 'wrapper' => 'p' ] ) .
-					Html::rawElement ( 'p', [], $this->get( 'undelete' ) )
+					Html::rawElement( 'p', [], $this->get( 'undelete' ) )
 				) .
 				$this->get( 'bodycontent' ) .
 				$this->getClear() .
@@ -125,6 +125,9 @@ class HasSomeColoursTemplate extends BaseTemplate {
 
 	/**
 	 * Generates the logo and (optionally) site title
+	 *
+	 * @param string $id
+	 * @param bool $imageOnly
 	 * @return string html
 	 */
 	protected function getLogo( $id = 'p-logo', $imageOnly = false ) {
@@ -144,7 +147,7 @@ class HasSomeColoursTemplate extends BaseTemplate {
 				[
 					'id' => 'p-banner',
 					'class' => 'mw-wiki-title',
-					'href'=> $this->data['nav_urls']['mainpage']['href']
+					'href' => $this->data['nav_urls']['mainpage']['href']
 				] + Linker::tooltipAndAccesskeyAttribs( 'p-logo' ),
 				Html::element( 'h1', [], $this->getMsg( 'sitetitle' )->escaped() )
 			);
@@ -219,9 +222,10 @@ class HasSomeColoursTemplate extends BaseTemplate {
 	 *
 	 * @param string $linksMessage
 	 * @param string $id
+	 * @return string
 	 */
 	protected function getNavigation( $linksMessage, $id ) {
-		$message = trim(  wfMessage( $linksMessage )->text() );
+		$message = trim( wfMessage( $linksMessage )->text() );
 		$lines = array_slice( explode( "\n", $message ), 0, 15 );
 		$links = [];
 		foreach ( $lines as $line ) {
@@ -239,7 +243,7 @@ class HasSomeColoursTemplate extends BaseTemplate {
 
 				// Pull out third item as a class
 				if ( count( $line_temp ) == 3 ) {
-					$item['class'] =  Sanitizer::escapeClass( $line_temp[2] );
+					$item['class'] = Sanitizer::escapeClass( $line_temp[2] );
 				}
 			} else {
 				$line = $line_temp[0];
