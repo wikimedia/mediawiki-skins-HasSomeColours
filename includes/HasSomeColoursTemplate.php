@@ -249,7 +249,7 @@ class HasSomeColoursTemplate extends BaseTemplate {
 				$line = $line_temp[0];
 				$link = $line_temp[0];
 			}
-			$item['id'] = Sanitizer::escapeId( $line );
+			$item['id'] = Sanitizer::escapeIdForAttribute( $line );
 
 			// Determine what to show as the human-readable link description
 			if ( wfMessage( $line )->isDisabled() ) {
@@ -425,7 +425,7 @@ class HasSomeColoursTemplate extends BaseTemplate {
 			$msgString = htmlspecialchars( $msg );
 		}
 
-		$labelId = Sanitizer::escapeId( "p-$name-label" );
+		$labelId = Sanitizer::escapeIdForAttribute( "p-$name-label" );
 
 		if ( is_array( $content ) ) {
 			$contentText = Html::openElement( 'ul',
@@ -457,7 +457,7 @@ class HasSomeColoursTemplate extends BaseTemplate {
 		// Special handling for role=search and other weird things
 		$divOptions = [
 			'role' => 'navigation',
-			'id' => Sanitizer::escapeId( $options['id'] ),
+			'id' => Sanitizer::escapeIdForAttribute( $options['id'] ),
 			'title' => Linker::titleAttrib( $options['id'] ),
 			'aria-labelledby' => $labelId
 		];
