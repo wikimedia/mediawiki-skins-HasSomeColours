@@ -64,7 +64,7 @@ class HasSomeColoursTemplate extends BaseTemplate {
 		$html .= Html::openElement( 'div', [ 'id' => 'site-navigation' ] );
 		$html .= Html::rawElement( 'div', [ 'id' => 'mw-sidebar' ], $this->getSiteNavigation() );
 		// Toolbox
-		$html .= $this->getPortlet( 'tb', $this->getToolbox(), 'toolbox', [ 'hooks' => 'SkinTemplateToolboxEnd' ] );
+		$html .= $this->getPortlet( 'tb', $this->data['sidebar']['TOOLBOX'], 'toolbox' );
 		// Languages
 		if ( $this->data['language_urls'] !== false ) {
 			$html .= $this->getPortlet( 'lang', $this->data['language_urls'], 'otherlanguages' );
@@ -131,6 +131,19 @@ class HasSomeColoursTemplate extends BaseTemplate {
 	 * @return string html
 	 */
 	protected function getLogo( $id = 'p-logo', $imageOnly = false ) {
+		$config = $this->getSkin()->getContext()->getConfig();
+		$logos = ResourceLoaderSkinModule::getAvailableLogos( $config );
+		if ( isset( $logos['wordmark'] ) ) {
+			$wordmarkData = $logos['wordmark'];
+			$wordmark = Html::element( 'img', [
+				'src' => $wordmarkData['src'],
+				'height' => $wordmarkData['height'] ?? null,
+				'width' => $wordmarkData['width'] ?? null,
+			] );
+		} else {
+			$wordmark = Html::element( 'h1', [ 'class' => 'wordmark-text' ], $this->getMsg( 'sitetitle' )->text() );
+		}
+
 		$html = Html::openElement(
 			'div', [ 'id' => $id, 'class' => 'mw-portlet', 'role' => 'banner' ]
 		);
@@ -149,7 +162,7 @@ class HasSomeColoursTemplate extends BaseTemplate {
 					'class' => 'mw-wiki-title',
 					'href' => $this->data['nav_urls']['mainpage']['href']
 				] + Linker::tooltipAndAccesskeyAttribs( 'p-logo' ),
-				Html::element( 'h1', [], $this->getMsg( 'sitetitle' )->escaped() )
+				$wordmark
 			);
 		}
 		$html .= Html::closeElement( 'div' );
@@ -222,10 +235,12 @@ class HasSomeColoursTemplate extends BaseTemplate {
 	 *
 	 * @param string $linksMessage
 	 * @param string $id
-	 * @return string
+	 * @param bool $doubleHeader Stupid mobile hack
+	 *
+	 * @return string html
 	 */
-	protected function getNavigation( $linksMessage, $id ) {
-		$message = trim( wfMessage( $linksMessage )->text() );
+	protected function getNavigation( $linksMessage, $id, $doubleHeader = false ) {
+		$message = trim( $this->getMsg( $linksMessage )->inContentLanguage()->text() );
 		$lines = array_slice( explode( "\n", $message ), 0, 15 );
 		$links = [];
 		foreach ( $lines as $line ) {
@@ -239,11 +254,11 @@ class HasSomeColoursTemplate extends BaseTemplate {
 			$line_temp = explode( '|', trim( $line, '* ' ), 3 );
 			if ( count( $line_temp ) > 1 ) {
 				$line = $line_temp[1];
-				$link = wfMessage( $line_temp[0] )->inContentLanguage()->text();
+				$link = $this->getMsg( $line_temp[0] )->inContentLanguage()->text();
 
 				// Pull out third item as a class
 				if ( count( $line_temp ) == 3 ) {
-					$item['class'] = Sanitizer::escapeClass( $line_temp[2] );
+					$item['class'] = Sanitizer::escapeIdForAttribute( $line_temp[2] );
 				}
 			} else {
 				$line = $line_temp[0];
@@ -252,36 +267,28 @@ class HasSomeColoursTemplate extends BaseTemplate {
 			$item['id'] = Sanitizer::escapeIdForAttribute( $line );
 
 			// Determine what to show as the human-readable link description
-			if ( wfMessage( $line )->isDisabled() ) {
+			if ( $this->getMsg( $line )->isDisabled() ) {
 				// It's *not* the name of a MediaWiki message, so display it as-is
 				$item['text'] = $line;
 			} else {
 				// Guess what -- it /is/ a MediaWiki message!
-				$item['text'] = wfMessage( $line )->text();
+				$item['text'] = $this->getMsg( $line )->text();
 			}
 
-			if ( $link != null ) {
-				if ( wfMessage( $line_temp[0] )->isDisabled() ) {
+			$href = '#';
+			if ( $link !== null ) {
+				if ( $this->getMsg( $line_temp[0] )->isDisabled() ) {
 					$link = $line_temp[0];
 				}
-				if ( Skin::makeInternalOrExternalUrl( $link ) ) {
-					$href = Skin::makeInternalOrExternalUrl( $link );
-				} else {
-					$title = Title::newFromText( $link );
-					if ( $title ) {
-						$title = $title->fixSpecialName();
-						$href = $title->getLocalURL();
-					} else {
-						$href = '#';
-					}
-				}
+
+				$href = Skin::makeInternalOrExternalUrl( $link );
 			}
 			$item['href'] = $href;
 
 			$links[] = $item;
 		}
 
-		return $this->getPortlet( $id, $links );
+		return $this->getPortlet( $id, $links, null, [ 'extra-header' => $doubleHeader, 'incontentlanguage' => true ] );
 	}
 
 	/**
@@ -291,7 +298,7 @@ class HasSomeColoursTemplate extends BaseTemplate {
 	 */
 	protected function getGlobalLinks() {
 		$html = '';
-		if ( wfMessage( 'global-links-menu' )->escaped() ) {
+		if ( !$this->getMsg( 'global-links-menu' )->inContentLanguage()->isDisabled() ) {
 			$html = $this->getNavigation( 'global-links-menu', 'global-links' );
 		}
 
@@ -378,32 +385,35 @@ class HasSomeColoursTemplate extends BaseTemplate {
 	}
 
 	/**
-	 * Generates a block of navigation links with a header
+	 * Generate a block of navigation links with a header
+	 *
+	 * <INSERT SCREAMING>
 	 *
 	 * @param string $name
 	 * @param array|string $content array of links for use with makeListItem, or a block of text
 	 * @param null|string|array $msg
 	 * @param array $setOptions random crap to rename/do/whatever
 	 *
-	 * @return string html
+	 * @return string HTML
 	 */
 	protected function getPortlet( $name, $content, $msg = null, $setOptions = [] ) {
 		// random stuff to override with any provided options
 		$options = $setOptions + [
 			// extra classes/ids
 			'id' => 'p-' . $name,
-			'class' => 'mw-portlet',
-			'extra-classes' => '',
+			'class' => [ 'mw-portlet', 'emptyPortlet' => !$content ],
+			'extra-classes' => [],
 			// what to wrap the body list in, if anything
 			'body-wrapper' => 'div',
-			'body-id' => null,
+			'body-id' => '',
 			'body-class' => 'mw-portlet-body',
+			'body-extra-classes' => [],
 			// makeListItem options
 			'list-item' => [ 'text-wrapper' => [ 'tag' => 'span' ] ],
 			// option to stick arbitrary stuff at the beginning of the ul
 			'list-prepend' => '',
-			// old toolbox hook support (use: [ 'SkinTemplateToolboxEnd' => [ &$skin, true ] ])
-			'hooks' => ''
+			'extra-header' => false,
+			'incontentlanguage' => false
 		];
 
 		// Handle the different $msg possibilities
@@ -414,7 +424,11 @@ class HasSomeColoursTemplate extends BaseTemplate {
 			$msgParams = $msg;
 			$msg = $msgString;
 		}
-		$msgObj = wfMessage( $msg );
+		if ( $options['incontentlanguage'] ) {
+			$msgObj = $this->getMsg( $msg )->inContentLanguage();
+		} else {
+			$msgObj = $this->getMsg( $msg );
+		}
 		if ( $msgObj->exists() ) {
 			if ( isset( $msgParams ) && !empty( $msgParams ) ) {
 				$msgString = $this->getMsg( $msg, $msgParams )->parse();
@@ -428,27 +442,22 @@ class HasSomeColoursTemplate extends BaseTemplate {
 		$labelId = Sanitizer::escapeIdForAttribute( "p-$name-label" );
 
 		if ( is_array( $content ) ) {
-			$contentText = Html::openElement( 'ul',
+			if ( !count( $content ) ) {
+				return '';
+			}
+
+			$contentText = '';
+			if ( $options['extra-header'] ) {
+				$contentText .= Html::rawElement( 'h3', [], $msgString );
+			}
+
+			$contentText .= Html::openElement( 'ul',
 				[ 'lang' => $this->get( 'userlang' ), 'dir' => $this->get( 'dir' ) ]
 			);
 			$contentText .= $options['list-prepend'];
 			foreach ( $content as $key => $item ) {
 				$contentText .= $this->makeListItem( $key, $item, $options['list-item'] );
 			}
-			// Compatibility with extensions still using SkinTemplateToolboxEnd or similar
-			if ( is_array( $options['hooks'] ) ) {
-				foreach ( $options['hooks'] as $hook ) {
-					if ( is_string( $hook ) ) {
-						$hookOptions = [];
-					} else {
-						// it should only be an array otherwise
-						$hookOptions = array_values( $hook )[0];
-						$hook = array_keys( $hook )[0];
-					}
-					$contentText .= $this->deprecatedHookHack( $hook, $hookOptions );
-				}
-			}
-
 			$contentText .= Html::closeElement( 'ul' );
 		} else {
 			$contentText = $content;
@@ -457,17 +466,11 @@ class HasSomeColoursTemplate extends BaseTemplate {
 		// Special handling for role=search and other weird things
 		$divOptions = [
 			'role' => 'navigation',
+			'class' => $this->mergeClasses( $options['class'], $options['extra-classes'] ),
 			'id' => Sanitizer::escapeIdForAttribute( $options['id'] ),
 			'title' => Linker::titleAttrib( $options['id'] ),
-			'aria-labelledby' => $labelId
+			'aria-labelledby' => $labelId,
 		];
-		if ( !is_array( $options['class'] ) ) {
-			$class = [ $options['class'] ];
-		}
-		if ( !is_array( $options['extra-classes'] ) ) {
-			$extraClasses = [ $options['extra-classes'] ];
-		}
-		$divOptions['class'] = array_merge( $class, $extraClasses );
 
 		$labelOptions = [
 			'id' => $labelId,
@@ -475,9 +478,12 @@ class HasSomeColoursTemplate extends BaseTemplate {
 			'dir' => $this->get( 'dir' )
 		];
 
+		// @phan-suppress-next-line PhanSuspiciousValueComparison
 		if ( $options['body-wrapper'] !== 'none' ) {
-			$bodyDivOptions = [ 'class' => $options['body-class'] ];
-			if ( is_string( $options['body-id'] ) ) {
+			$bodyDivOptions = [ 'class' => $this->mergeClasses(
+				$options['body-class'], $options['body-extra-classes']
+			) ];
+			if ( strlen( $options['body-id'] ) ) {
 				$bodyDivOptions['id'] = $options['body-id'];
 			}
 			$body = Html::rawElement( $options['body-wrapper'], $bodyDivOptions,
@@ -494,6 +500,28 @@ class HasSomeColoursTemplate extends BaseTemplate {
 		);
 
 		return $html;
+	}
+
+	/**
+	 * Helper function for getPortlet
+	 *
+	 * Merge all provided css classes into a single array
+	 * Account for possible different input methods matching what Html::element stuff takes
+	 *
+	 * @param string|array $class base portlet/body class
+	 * @param string|array $extraClasses any extra classes to also include
+	 *
+	 * @return array all classes to apply
+	 */
+	protected function mergeClasses( $class, $extraClasses ) {
+		if ( !is_array( $class ) ) {
+			$class = [ $class ];
+		}
+		if ( !is_array( $extraClasses ) ) {
+			$extraClasses = [ $extraClasses ];
+		}
+
+		return array_merge( $class, $extraClasses );
 	}
 
 	/**
@@ -523,6 +551,7 @@ class HasSomeColoursTemplate extends BaseTemplate {
 	 *
 	 * @param array $setOptions Miscellaneous other options
 	 * * 'id' for footer id
+	 * * 'class' for footer class
 	 * * 'order' to determine whether icons or links appear first: 'iconsfirst' or links, though in
 	 *   practice we currently only check if it is or isn't 'iconsfirst'
 	 * * 'link-prefix' to set the prefix for all link and block ids; most skins use 'f' or 'footer',
@@ -532,17 +561,20 @@ class HasSomeColoursTemplate extends BaseTemplate {
 	 *   nested array
 	 *
 	 * @return string html
-	 * @since 1.31
 	 */
 	protected function getFooterBlock( $setOptions = [] ) {
 		// Set options and fill in defaults
 		$options = $setOptions + [
 			'id' => 'footer',
+			'class' => 'mw-footer',
 			'order' => 'iconsfirst',
 			'link-prefix' => 'footer',
 			'icon-style' => 'icononly',
 			'link-style' => null
 		];
+
+		// phpcs:ignore Generic.Files.LineLength.TooLong
+		'@phan-var array{id:string,class:string,order:string,link-prefix:string,icon-style:string,link-style:?string} $options';
 
 		$validFooterIcons = $this->getFooterIcons( $options['icon-style'] );
 		$validFooterLinks = $this->getFooterLinks( $options['link-style'] );
@@ -551,6 +583,7 @@ class HasSomeColoursTemplate extends BaseTemplate {
 
 		$html .= Html::openElement( 'div', [
 			'id' => $options['id'],
+			'class' => $options['class'],
 			'role' => 'contentinfo',
 			'lang' => $this->get( 'userlang' ),
 			'dir' => $this->get( 'dir' )
@@ -558,9 +591,9 @@ class HasSomeColoursTemplate extends BaseTemplate {
 
 		$iconsHTML = '';
 		if ( count( $validFooterIcons ) > 0 ) {
-			$iconsHTML .= Html::openElement( 'div', [ 'id' => "{$options['link-prefix']}-icons" ] );
+			$iconsHTML .= Html::openElement( 'ul', [ 'id' => "{$options['link-prefix']}-icons" ] );
 			foreach ( $validFooterIcons as $blockName => $footerIcons ) {
-				$iconsHTML .= Html::openElement( 'div', [
+				$iconsHTML .= Html::openElement( 'li', [
 					'id' => Sanitizer::escapeIdForAttribute(
 						"{$options['link-prefix']}-{$blockName}ico"
 					),
@@ -569,14 +602,14 @@ class HasSomeColoursTemplate extends BaseTemplate {
 				foreach ( $footerIcons as $icon ) {
 					$iconsHTML .= $this->getSkin()->makeFooterIcon( $icon );
 				}
-				$iconsHTML .= Html::closeElement( 'div' );
+				$iconsHTML .= Html::closeElement( 'li' );
 			}
-			$iconsHTML .= Html::closeElement( 'div' );
+			$iconsHTML .= Html::closeElement( 'ul' );
 		}
 
 		$linksHTML = '';
 		if ( count( $validFooterLinks ) > 0 ) {
-			if ( $options['link-style'] == 'flat' ) {
+			if ( $options['link-style'] === 'flat' ) {
 				$linksHTML .= Html::openElement( 'ul', [
 					'id' => "{$options['link-prefix']}-list",
 					'class' => 'footer-places'
@@ -612,7 +645,7 @@ class HasSomeColoursTemplate extends BaseTemplate {
 			}
 		}
 
-		if ( $options['order'] == 'iconsfirst' ) {
+		if ( $options['order'] === 'iconsfirst' ) {
 			$html .= $iconsHTML . $linksHTML;
 		} else {
 			$html .= $linksHTML . $iconsHTML;

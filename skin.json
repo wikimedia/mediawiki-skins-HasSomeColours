@@ -1,14 +1,32 @@
 {
 	"name": "HasSomeColours",
-	"version": "0.1",
+	"version": "0.2",
 	"author": "Isarra",
 	"url": "https://www.mediawiki.org/wiki/Skin:HasSomeColours",
 	"descriptionmsg": "hassomecolours-desc",
 	"namemsg": "skinname-hassomecolours",
 	"license-name": "GPL-2.0-or-later",
 	"type": "skin",
+	"requires": {
+		"MediaWiki": ">= 1.36"
+	},
 	"ValidSkinNames": {
-		"hassomecolours": "HasSomeColours"
+		"hassomecolours":  {
+			"displayname": "HasSomeColours",
+			"class": "SkinHasSomeColours",
+			"args": [
+				{
+					"name": "hassomecolours",
+					"responsive": true,
+					"styles": [
+						"skins.hassomecolours"
+					],
+					"scripts": [
+						"skins.hassomecolours.js"
+					]
+				}
+			]
+		}
 	},
 	"MessagesDirs": {
 		"HasSomeColours": [
@@ -17,11 +35,18 @@
 	},
 	"ResourceModules": {
 		"skins.hassomecolours": {
+			"targets": [
+				"desktop",
+				"mobile"
+			],
 			"class": "ResourceLoaderSkinModule",
+			"features": {
+				"content-links": true,
+				"logo": true,
+				"legacy": true,
+				"normalize": true
+			},
 			"styles": {
-				"resources/libraries/normalise.css": {
-					"media": "screen"
-				},
 				"resources/screen-common.less": {
 					"media": "screen"
 				},
@@ -34,6 +59,10 @@
 			}
 		},
 		"skins.hassomecolours.js": {
+			"targets": [
+				"desktop",
+				"mobile"
+			],
 			"scripts": [
 				"resources/main.js"
 			]
