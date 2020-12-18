@@ -33,13 +33,23 @@
 			"i18n"
 		]
 	},
+	"config": {
+		"HasSomeColoursColourOne": {
+			"value": "#555",
+			"description": "Primary header/footer colour, for the header/footer/various backgrounds"
+		},
+		"HasSomeColoursColourTwo": {
+			"value": "#d77",
+			"description": "Secondary header/footer colour, for trim and stuff"
+		}
+	},
 	"ResourceModules": {
 		"skins.hassomecolours": {
 			"targets": [
 				"desktop",
 				"mobile"
 			],
-			"class": "ResourceLoaderSkinModule",
+			"class": "HasSomeColoursVariablesModule",
 			"features": {
 				"content-links": true,
 				"logo": true,
@@ -74,7 +84,8 @@
 	},
 	"AutoloadClasses": {
 		"SkinHasSomeColours": "includes/SkinHasSomeColours.php",
-		"HasSomeColoursTemplate": "includes/HasSomeColoursTemplate.php"
+		"HasSomeColoursTemplate": "includes/HasSomeColoursTemplate.php",
+		"HasSomeColoursVariablesModule": "includes/HasSomeColoursVariablesModule.php"
 	},
-	"manifest_version": 1
+	"manifest_version": 2
 }

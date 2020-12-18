@@ -1,11 +1,17 @@
 @import 'mediawiki.mixins';
 
-@blue: #26c;
-@cyan: #7cf;
-@red: #c02;
+// From config:
+// @primary: default #555;
+// @secondary: default #d77;
+// @header-text: default #fff;
+// @header-link: default #def;
 
 @text: #000;
 @background: #fff;
+
+// Misc
+@blue-links: #26c;
+@red-links: #c02;
 
 @grey1: #ddd;
 @grey2: #555;
@@ -13,6 +19,9 @@
 @borders: 2px;
 @light: 400;
 @bold: 600;
+
+@fonts:  "Montserrat Light", "Montserrat", "Nunito Sans", "Noto Sans", "Lucida Sans Unicode", "Lucida Sans", "Tahoma", sans-serif;
+@fonts-mono: 'monospace'; // TODO something biiiiiiig!
 
 /* To hide objects, but keep them accessible for screen-readers */
 .hidden() {
@@ -37,8 +46,8 @@
 		right: 0;
 		background: @background;
 		padding: 1em 2em 2em;
-		border-bottom: solid @borders @cyan;
-		border-top: solid 1px @blue;
+		border-bottom: solid @borders @secondary;
+		border-top: solid 1px @primary;
 		min-width: 14em;
 		box-sizing: border-box;
 		box-shadow: 0 1px 5px rgba( 0, 0, 0, 0.125 );

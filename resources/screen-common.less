@@ -1,4 +1,5 @@
 @import 'variables.less';
+@import 'fonts.less';
 
 /* Page layout */
 
@@ -6,24 +7,24 @@ html,
 body {
 	margin: 0;
 	padding: 0;
-	color: @text;
 }
 
 body {
-	font-family: sans-serif;
-	background: @background;
+	font-family: @fonts;
 	font-weight: @light;
 	font-size: 95%;
+	color: @text;
+	background: @primary;
 }
 
 .main-column {
-	padding: 1em 2em;
+	padding: 0.25em 2em;
 	margin: 0 auto;
 	max-width: 1450px;
 }
 
 a {
-	color: @blue;
+	color: @blue-links;
 	text-decoration: none;
 }
 
@@ -40,7 +41,6 @@ b {
 .mw-body h5,
 .mw-body h6 {
 	font-weight: @light;
-	color: @grey2;
 	margin-top: 2em;
 }
 
@@ -49,7 +49,7 @@ b {
 .mw-body h2,
 .mw-body h3 {
 	border-bottom: solid @borders @grey1;
-	padding-bottom: 0.25em;
+	padding-bottom: 0;
 	overflow: hidden;
 }
 
@@ -59,11 +59,11 @@ b {
 
 #mw-header,
 #mw-footer {
-	background: @blue;
-	color: @background;
+	background: @primary;
+	color: @header-text;
 
 	a {
-		color: @background;
+		color: @header-text;
 		text-decoration: none;
 	}
 
@@ -78,16 +78,17 @@ b {
 }
 
 #mw-header {
-	border-bottom: solid @borders @cyan;
-
-	.main-column {
-		padding-bottom: 0.5em;
-	}
+	border-bottom: solid @borders @secondary;
 }
 
 #mw-footer {
-	border-top: solid @borders @cyan;
+	border-top: solid @borders @secondary;
 	font-size: 90%;
+
+	a {
+		// Change this one because we actually have other text here
+		color: @header-link;
+	}
 }
 
 #p-personal,
@@ -104,7 +105,7 @@ b {
 	// .dropdown();
 
 	h3 {
-		margin: 0;
+		margin: 0.125em 0 0;
 		display: inline-block;
 		font-size: 1.5em;
 	}
@@ -115,7 +116,7 @@ b {
 
 	ul {
 		padding: 0;
-		margin-top: 1.5em;
+		margin: 0.65em 0 0.5em;
 	}
 
 	li {
@@ -124,6 +125,31 @@ b {
 	}
 }
 
+#p-logo {
+	margin: 0.75em 0;
+
+	.mw-wiki-logo {
+		float: left;
+		display: block;
+		content: '';
+		width: 3.5em;
+		height: 3.5em;
+		background-repeat: no-repeat;
+		background-position: 50% 50%;
+		background-size: contain;
+		margin-top: -.5em;
+	}
+}
+
+#p-banner {
+	img,
+	h1 {
+		margin: 0.125em 0 0 0.25em;
+		display: inline-block;
+		font-size: 2.25em;
+		font-weight: @light;
+	}
+}
 
 #p-personal {
 	position: relative;
@@ -137,29 +163,15 @@ b {
 	}
 }
 
+#mw-content-header,
+#mw-content {
+	background: @background;
+}
+
 #p-search {
 	float: right;
 	clear: right;
 	margin-top: 0.75em;
-}
-
-#p-logo .mw-wiki-logo {
-	float: left;
-	display: block;
-	content: '';
-	width: 3.5em;
-	height: 3.5em;
-	background-repeat: no-repeat;
-	background-position: 50% 50%;
-	background-size: contain;
-	margin-top: -.5em;
-}
-
-#p-banner h1 {
-	margin: 0.125em 0 0 0.25em;
-	display: inline-block;
-	font-size: 2.25em;
-	font-weight: @light;
 }
 
 #catlinks,
@@ -171,10 +183,6 @@ b {
 	}
 }
 
-#mw-content-header .main-column {
-	padding-bottom: 0;
-}
-
 // sidebar
 #site-navigation {
 	font-size: 90%;
@@ -184,16 +192,31 @@ b {
 	h3 {
 		padding-top: @borders;
 		padding-bottom: 0.25em;
-		border-color: @cyan;
+		border-color: @secondary;
+		margin: 1em 0 0.5em;
 	}
 
 	#mw-sidebar div:first-child h3 {
-		margin-top: 0;
+		margin-top: 0.125em;
 	}
 
 	li {
 		border-bottom: solid 1px @grey1;
 		padding: 0.5em 0 0.25em;
+	}
+
+	.mw-portlet {
+		margin-bottom: 3em;
+	}
+}
+
+#siteNotice {
+	text-align: center;
+	border-bottom: solid 2px @grey1;
+	margin: 0 5em 2em;
+
+	p {
+		margin: 0.5em 0;
 	}
 }
 
@@ -203,7 +226,7 @@ h1.firstHeading {
 }
 
 #page-tools {
-	border-bottom: solid @borders @blue;
+	border-bottom: solid @borders @primary;
 	font-size: 90%;
 
 	.nav-list();
@@ -220,11 +243,11 @@ h1.firstHeading {
 			margin-right: 0.5em;
 
 			&.selected {
-				background: @blue;
-				border-top: solid @borders @cyan;
+				background: @primary;
+				border-top: solid @borders @secondary;
 
 				a {
-					color: @background;
+					color: @header-text;
 					font-weight: @bold;
 				}
 			}
@@ -241,7 +264,8 @@ h1.firstHeading {
 
 		h3 {
 			font-weight: @light;
-			margin: 0.2em 0 0;
+			// Line up to cactions with extra 2px border
+			margin: 2px 0 0;
 			font-size: 100%;
 			padding: 0.3em 1em 0.25em;
 		}
