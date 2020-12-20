@@ -1,0 +1,21 @@
+@import '../variables.less';
+
+@media screen {
+	.mw-dismissable-notice {
+		border-bottom: solid @borders @grey1;
+		margin: 0 0 1.5em;
+
+		@media ( min-width: 701px ) {
+			margin: 0 5em 1.5em;
+		}
+	}
+
+	.mw-dismissable-notice-close {
+		float: right;
+	}
+
+	div#siteNotice {
+		margin: 0;
+		border-bottom: unset;
+	}
+}

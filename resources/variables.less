@@ -10,18 +10,20 @@
 @background: #fff;
 
 // Misc
-@blue-links: #26c;
-@red-links: #c02;
+@blue-links: #06c;
+@ext-links: #55c;
+@red-links: #c00;
 
 @grey1: #ddd;
 @grey2: #555;
 
 @borders: 2px;
-@light: 400;
-@bold: 600;
 
 @fonts:  "Montserrat Light", "Montserrat", "Nunito Sans", "Noto Sans", "Lucida Sans Unicode", "Lucida Sans", "Tahoma", sans-serif;
-@fonts-mono: 'monospace'; // TODO something biiiiiiig!
+@fonts-mono: monospace, monospace;
+@fonts-serif: "Georgia", times, serif;
+
+@smaller-text: 0.9em;
 
 /* To hide objects, but keep them accessible for screen-readers */
 .hidden() {
@@ -35,7 +37,10 @@
 	h3 {
 		cursor: pointer;
 		display: inline-block;
+		padding-right: 22px;
+		background: url( images/arrow-down-black.svg ) no-repeat 100% 4px;
 	}
+
 	.mw-portlet-body {
 		display: none;
 	}
@@ -50,7 +55,8 @@
 		border-top: solid 1px @primary;
 		min-width: 14em;
 		box-sizing: border-box;
-		box-shadow: 0 1px 5px rgba( 0, 0, 0, 0.125 );
+		box-shadow: 0 2px 3px rgba( 0, 0, 0, 0.125 );
+		z-index: 100;
 
 		li {
 			border-bottom: solid 1px @grey1;
@@ -59,6 +65,11 @@
 
 		a {
 			display: block;
+			color: @grey2;
+
+			&:hover {
+				color: @text;
+			}
 		}
 	}
 }

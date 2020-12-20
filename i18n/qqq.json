@@ -4,5 +4,7 @@
 	},
 	"skinname-hassomecolours": "{{optional}}",
 	"hassomecolours-desc": "{{desc|what=skin|name=HasSomeColours|url=https://www.mediawiki.org/wiki/Skin:HasSomeColours}}",
-	"global-links": "Header for custom corner navigation menu, probably containing global links"
+	"global-links": "Header for custom corner navigation menu, probably containing global links",
+	"global-links-menu": "{{ignore}} Optional secondary navigation menu for cross-site links and stuff",
+	"hassomecolours-account": "Label for user account dropdown"
 }

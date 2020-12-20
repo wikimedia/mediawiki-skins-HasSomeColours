@@ -43,15 +43,6 @@ class HasSomeColoursTemplate extends BaseTemplate {
 		$html .= Html::rawElement( 'div', [ 'class' => 'main-column' ],
 			$this->getSearch() .
 			$this->getLogo() .
-			$this->getClear() .
-			$this->getIfExists( 'sitenotice', [
-				'wrapper' => 'div',
-				'parameters' => [ 'id' => 'siteNotice' ]
-			] ) .
-			$this->getIfExists( 'newtalk', [
-				'wrapper' => 'div',
-				'parameters' => [ 'class' => 'usermessage' ]
-			] ) .
 			$this->getClear()
 		);
 		$html .= Html::closeElement( 'div' );
@@ -71,8 +62,20 @@ class HasSomeColoursTemplate extends BaseTemplate {
 		}
 		$html .= Html::closeElement( 'div' );
 
-		// Page editing and tools
+		// Content block
 		$html .= Html::openElement( 'div', [ 'id' => 'page-block' ] );
+		$html .= Html::rawElement( 'div', [ 'class' => 'mw-notices' ],
+			$this->getIfExists( 'sitenotice', [
+				'wrapper' => 'div',
+				'parameters' => [ 'id' => 'siteNotice' ]
+			] ) .
+			$this->getIfExists( 'newtalk', [
+				'wrapper' => 'div',
+				'parameters' => [ 'class' => 'usermessage' ]
+			] ) .
+			$this->getClear()
+		);
+		// Page editing and tools
 		$html .= Html::rawElement(
 			'div',
 			[ 'id' => 'page-tools' ],
@@ -346,11 +349,41 @@ class HasSomeColoursTemplate extends BaseTemplate {
 	 * @return string html
 	 */
 	protected function getUserLinks() {
-		return $this->getPortlet(
+		$user = $this->getSkin()->getUser();
+
+		$menu = $this->getPersonalTools();
+		$dropdown = [];
+		$html = '';
+
+		foreach ( $menu as $key => $item ) {
+			if ( in_array( $key, [ 'uls', 'userpage', 'notifications-alert', 'notifications-notice' ] ) ) {
+				continue;
+			}
+
+			$dropdown[$key] = $item;
+			unset( $menu[$key] );
+		}
+
+		if ( $user->isRegistered() ) {
+			$headerText = 'hassomecolours-account';
+		} else {
+			$headerText = 'notloggedin';
+			// duplicate of $headerText
+			unset( $dropdown['anonuserpage'] );
+		}
+
+		$html .= $this->getPortlet(
 			'personal',
-			$this->getPersonalTools(),
+			$menu,
 			'personaltools'
+		) .
+		$this->getPortlet(
+			'personal-dropdown',
+			$dropdown,
+			$headerText
 		);
+
+		return $html;
 	}
 
 	/**

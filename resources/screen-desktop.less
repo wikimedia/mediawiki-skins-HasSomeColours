@@ -1,21 +1,80 @@
 @import 'variables.less';
 
-// Two column layout
-#mw-content {
-	.main-column {
-		.flex-display;
-		clear: both;
+// General desktop
+@media screen and ( min-width: 701px ) {
+	#p-search {
+		float: right;
+	}
+
+	#siteNotice {
+		margin: 0 5em 1.5em;
+
 	}
 }
 
-#site-navigation {
-	width: 15em;
-	.flex( 0, 0, 14em, 1 );
-	padding: 0 3em 0 0;
+// Two column desktop
+@media screen and ( min-width: 1001px ) {
+	// Two column layout
+	#mw-content {
+		.main-column {
+			.flex-display;
+			clear: both;
+		}
+	}
+
+	#site-navigation {
+		width: 15em;
+		.flex( 0, 0, 12em, 1 );
+		padding: 0 3em 0 0;
+	}
+
+	#page-block {
+		.flex( 1, 1, auto, 2 );
+		// Make word wrapping, max-width percentages, etc work with the above flex
+		min-width: 70%;
+	}
 }
 
-#page-block {
-	.flex( 1, 1, auto, 2 );
-	// Make word wrapping, max-width percentages, etc work with the above flex
-	min-width: 70%;
+// Single-column desktop
+@media screen and ( min-width: 701px ) and ( max-width: 1000px ) {
+	#p-search {
+		margin-top: 1em;
+	}
+
+	#site-navigation {
+		.mw-portlet {
+			.dropdown();
+			margin: 0 2em 1em 0;
+
+			&:hover .mw-portlet-body {
+				left: 0;
+				top: 1.8em;
+			}
+		}
+
+		#p-tb {
+			float: right;
+			margin: 0 0 1em 2em;
+
+			.mw-portlet-body {
+				left: unset;
+				right: 0;
+			}
+		}
+
+		#mw-sidebar,
+		.mw-portlet {
+			display: inline-block;
+		}
+
+		.mw-portlet h3 {
+			margin: 0;
+			border-bottom: solid @borders @secondary;
+			padding-bottom: 0.125em;
+		}
+	}
+
+	#searchInput {
+		width: 23em;
+	}
 }

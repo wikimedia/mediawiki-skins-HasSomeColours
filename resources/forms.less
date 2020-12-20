@@ -1,0 +1,213 @@
+@import 'variables.less';
+
+#searchInput,
+textarea,
+select,
+input[type='text'],
+// Because people couldn't even bother to specify types, let alone set classes on these...
+// (action=protect, special:upload, other old non-ooui forms)
+input[size='60'],
+input[size='50'],
+input[size='40'],
+input[size='30'] {
+	background: @background;
+	.box-sizing( border-box );
+	padding: 5px 0.5em;
+	border: solid 1px #aaa;
+	border-radius: 2px;
+	height: unset;
+}
+
+#searchGoButton {
+	background-color: transparent;
+	border-color: transparent;
+	cursor: pointer;
+	background: url( images/search-ltr.svg ) no-repeat 50% 50%;
+	text-indent: -99999px;
+	// The really dumb approach
+	width: 3em;
+	margin-left: -3em;
+}
+
+#searchInput {
+	padding: 0.5em 3em 0.45em 0.75em;
+	width: 28em;
+}
+
+#searchInput,
+textarea,
+input[type='text'],
+// Because people couldn't even bother to specify types, let alone set classes on these...
+// (action=protect, special:upload, other old non-ooui forms)
+input[size='60'],
+input[size='50'],
+input[size='40'],
+input[size='30'] {
+	.box-shadow( 0 1px 2px rgba( 0, 0, 0, 0.125 ) inset );
+}
+
+input[disabled] {
+	.box-shadow( unset );
+}
+
+select {
+	padding: 0.45em 0.5em;
+}
+
+// Above catches upload wodgits
+input#wpUploadFile {
+	.box-shadow( unset );
+	border: 0;
+	padding: 0;
+}
+
+button,
+label,
+select,
+input {
+	font-family: @fonts;
+}
+
+textarea,
+input[type='text'] {
+	font-family: @fonts-mono;
+	width: 100%;
+}
+
+.mw-editfont-monospace {
+	font-family: @fonts-mono;
+}
+
+.mw-editfont-sans-serif {
+	font-family: @fonts;
+}
+
+.mw-editfont-serif {
+	font-family: @fonts-serif;
+}
+
+.editOptions {
+	margin: 1em 0 2.5em;
+	padding: 0 0 1.5em;
+	border-bottom: solid @borders @secondary;
+}
+
+.mw-ui-button,
+.oo-ui-actionFieldLayout .oo-ui-actionFieldLayout-button .oo-ui-buttonElement-framed > .oo-ui-buttonElement-button,
+button,
+input[type='submit'] {
+	.box-sizing( border-box );
+	padding: 5px 1em;
+	background-color: #36c;
+	border: solid 1px #36c;
+	font-weight: bold;
+	color: #fff;
+	border-radius: 3px;
+
+	&:hover,
+	&:active {
+		background-color: #47f;
+		color: #fff;
+		border-color: #47f;
+	}
+}
+
+// More form stuff
+fieldset {
+	border: 0;
+	margin: 0;
+	padding: 0.5em 0 0 0;
+	background-position: left 0.6em;
+
+	legend {
+		font-family: @fonts;
+		font-size: 115%;
+		margin-top: 1em;
+	}
+
+	dt {
+		margin: 0 0.5em 0 0;
+	}
+
+	// Ew, but seems to work because all of these are feckin' tables...
+	table {
+		border-collapse: separate;
+		border-spacing: 0 0.5em;
+	}
+}
+
+.mw-editform #editpage-copywarn {
+	line-height: unset;
+}
+
+// Fix some random incompatibilities
+#mw-searchoptions,
+.oo-ui-panelLayout fieldset {
+	background-image: none;
+
+	legend {
+		font-weight: normal;
+	}
+}
+
+.oo-ui-fieldsetLayout.oo-ui-labelElement > .oo-ui-fieldsetLayout-header > .oo-ui-labelElement-label {
+	font-weight: normal;
+}
+
+.oo-ui-labelElement .oo-ui-labelElement-label {
+	margin: 0;
+}
+
+.mw-ui-input,
+.mw-ui-input:invalid,
+.oo-ui-textInputWidget.oo-ui-widget-enabled .oo-ui-inputWidget-input {
+	.box-shadow( 0 1px 2px rgba( 0, 0, 0, 0.125 ) inset );
+}
+
+.mw-ui-input,
+.oo-ui-textInputWidget .oo-ui-inputWidget-input {
+	border-color:  #aaa;
+	border-radius: 2px;
+}
+
+// What in the world...?
+#mw-content-text {
+	// See special:block (?)
+	.mw-htmlform > .oo-ui-panelLayout-padded {
+		box-shadow: unset;
+		background: transparent;
+		margin-bottom: 1.5em;
+
+		legend {
+			background-position: 0 1.5em;
+		}
+	}
+
+	// More block stuff?
+	#mw-htmlform-actions .oo-ui-tagMultiselectWidget-handle {
+		margin-right: 0;
+		padding: 0;
+
+		input {
+			box-shadow: unset;
+			margin: 0;
+		}
+	}
+
+	.mw-widgets-datetime-dateTimeInputWidget-field {
+		display: initial;
+	}
+
+	.mw-widgets-datetime-dateTimeInputWidget-handle {
+		.box-shadow( 0 1px 2px rgba( 0, 0, 0, 0.125 ) inset );
+		padding: 5px 0.5em;
+
+		input {
+			box-shadow: unset;
+			padding: 0;
+			border: 0;
+			display: initial;
+			font-family: @fonts;
+		}
+	}
+}

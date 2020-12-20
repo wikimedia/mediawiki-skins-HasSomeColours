@@ -1,22 +1,63 @@
 @import 'variables.less';
 
-#site-navigation {
-	.mw-portlet {
-		.dropdown();
-		margin: 0 2em 1em 0;
+#searchInput {
+	width: 100%;
+}
 
-		&:hover .mw-portlet-body {
-			left: 0;
+/* Full-width thumbnails */
+
+div.thumb {
+	float: none;
+}
+
+.thumb {
+	margin: 1em auto;
+}
+
+.floatright,
+.tright {
+	margin-left: 0;
+	padding-left: 0;
+}
+
+.floatleft,
+.tleft {
+	margin-right: 0;
+	padding-right: 0;
+}
+
+.thumbinner {
+	padding: 1em 1.5em;
+	width: 100% !important;
+	box-sizing: border-box;
+}
+
+.thumbimage {
+	display: block;
+	margin: 0 auto 0.5em;
+}
+
+/* Table of contents */
+.toc,
+.mw-warning {
+	width: 100%;
+	box-sizing: border-box;
+}
+
+/* Regular tables */
+.mw-body {
+	border: 0;
+
+	table {
+		width: 100%;
+		margin-left: 0;
+		margin-right: 0;
+
+		table {
+			// HOLD ON WHAT ABORT ABORT
+			width: unset;
+			margin-left: unset;
+			margin-right: unset;
 		}
-	}
-
-	#mw-sidebar,
-	.mw-portlet {
-		display: inline-block;
-	}
-
-	h3 {
-		margin: 0;
-		border-bottom: none;
 	}
 }

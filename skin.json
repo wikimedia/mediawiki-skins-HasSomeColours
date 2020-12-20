@@ -60,11 +60,9 @@
 				"resources/screen-common.less": {
 					"media": "screen"
 				},
-				"resources/screen-desktop.less": {
-					"media": "screen and (min-width: 951px)"
-				},
+				"0": "resources/screen-desktop.less",
 				"resources/screen-mobile.less": {
-					"media": "screen and (max-width: 950px)"
+					"media": "screen and (max-width: 700px)"
 				}
 			}
 		},
@@ -81,6 +79,13 @@
 	"ResourceFileModulePaths": {
 		"localBasePath": "",
 		"remoteSkinPath": "HasSomeColours"
+	},
+	"ResourceModuleSkinStyles": {
+		"hassomecolours": {
+			"+ext.echo.styles.badge": "resources/modules/Echo.styles.badge.less",
+			"+mediawiki.action.view.filepage": "resources/modules/Filepage.less",
+			"+ext.dismissableSiteNotice.styles": "resources/modules/DismissableSiteNotice.less"
+		}
 	},
 	"AutoloadClasses": {
 		"SkinHasSomeColours": "includes/SkinHasSomeColours.php",
