@@ -11,7 +11,7 @@
 		"MediaWiki": ">= 1.36"
 	},
 	"ValidSkinNames": {
-		"hassomecolours":  {
+		"hassomecolours": {
 			"displayname": "HasSomeColours",
 			"class": "SkinHasSomeColours",
 			"args": [
