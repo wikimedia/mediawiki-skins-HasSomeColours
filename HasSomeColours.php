@@ -4,7 +4,11 @@
  * instead. See https://www.mediawiki.org/wiki/Manual:Extension_registration for more details.
  */
 if ( !function_exists( 'wfLoadSkin' ) ) {
-	die( 'The HasSomeColours skin requires MediaWiki 1.25 or newer.' );
+	die( 'The HasSomeColours skin requires MediaWiki 1.36 or newer.' );
 }
+wfWarn(
+	'Deprecated PHP entry point used for HasSomeColours skin. Please use wfLoadSkin instead, ' .
+	'see https://www.mediawiki.org/wiki/Extension_registration for more details.'
+	);
 
 wfLoadSkin( 'HasSomeColours' );
