@@ -10,7 +10,6 @@ class HasSomeColoursTemplate extends BaseTemplate {
 	 */
 	public function execute() {
 		$html = '';
-		$html .= $this->get( 'headelement' );
 
 		$html .= Html::openElement( 'div', [ 'id' => 'mw-wrapper' ] );
 
@@ -119,9 +118,6 @@ class HasSomeColoursTemplate extends BaseTemplate {
 		$html .= Html::closeElement( 'div' );
 
 		$html .= Html::closeElement( 'div' );
-		$html .= $this->getTrail();
-		$html .= Html::closeElement( 'body' );
-		$html .= Html::closeElement( 'html' );
 
 		echo $html;
 	}
@@ -521,10 +517,10 @@ class HasSomeColoursTemplate extends BaseTemplate {
 			}
 			$body = Html::rawElement( $options['body-wrapper'], $bodyDivOptions,
 				$contentText .
-				$this->getAfterPortlet( $name )
+				$this->getSkin()->getAfterPortlet( $name )
 			);
 		} else {
-			$body = $contentText . $this->getAfterPortlet( $name );
+			$body = $contentText . $this->getSkin()->getAfterPortlet( $name );
 		}
 
 		$html = Html::rawElement( 'div', $divOptions,
@@ -609,7 +605,7 @@ class HasSomeColoursTemplate extends BaseTemplate {
 		// phpcs:ignore Generic.Files.LineLength.TooLong
 		'@phan-var array{id:string,class:string,order:string,link-prefix:string,icon-style:string,link-style:?string} $options';
 
-		$validFooterIcons = $this->getFooterIcons( $options['icon-style'] );
+		$validFooterIcons = $this->get( 'footericons' );
 		$validFooterLinks = $this->getFooterLinks( $options['link-style'] );
 
 		$html = '';
