@@ -554,28 +554,6 @@ class HasSomeColoursTemplate extends BaseTemplate {
 	}
 
 	/**
-	 * Wrapper to catch output of old hooks expecting to write directly to page
-	 * We no longer do things that way.
-	 *
-	 * @param string $hook event
-	 * @param array $hookOptions args
-	 *
-	 * @return string html
-	 */
-	protected function deprecatedHookHack( $hook, $hookOptions = [] ) {
-		$hookContents = '';
-		ob_start();
-		Hooks::run( $hook, $hookOptions );
-		$hookContents = ob_get_contents();
-		ob_end_clean();
-		if ( !trim( $hookContents ) ) {
-			$hookContents = '';
-		}
-
-		return $hookContents;
-	}
-
-	/**
 	 * Better renderer for getFooterIcons and getFooterLinks
 	 *
 	 * @param array $setOptions Miscellaneous other options
