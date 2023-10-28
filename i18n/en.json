@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [ "Isarra" ]
 	},
+	"hassomecolours-prefs-talkpage": "[[mw:Skin talk:HasSomeColours|{{int:talk}}]]",
 	"skinname-hassomecolours": "HasSomeColours",
 	"hassomecolours-desc": "A skin with some colours. It does skin stuff.",
 	"global-links": "Other navigation",

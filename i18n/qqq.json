@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [ "..." ]
 	},
+	"hassomecolours-prefs-talkpage": "{{optional}}\nLink to the skin's talk page on MediaWiki.org; it is shown before the preview link in skin preferences on Special:Preferences. Inspired by [https://phabricator.wikimedia.org/T307113 T307113].",
 	"skinname-hassomecolours": "{{optional}}",
 	"hassomecolours-desc": "{{desc|what=skin|name=HasSomeColours|url=https://www.mediawiki.org/wiki/Skin:HasSomeColours}}",
 	"global-links": "Header for custom corner navigation menu, probably containing global links",
