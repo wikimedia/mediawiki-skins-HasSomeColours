@@ -1,15 +1,19 @@
 <?php
+
+use MediaWiki\ResourceLoader\Context;
+use MediaWiki\ResourceLoader\SkinModule;
+
 /**
  * ResourceLoader module to set some LESS variables for the skin
  */
-class HasSomeColoursVariablesModule extends ResourceLoaderSkinModule {
+class HasSomeColoursVariablesModule extends SkinModule {
 	/**
 	 * Add our LESS variables
 	 *
-	 * @param ResourceLoaderContext $context
+	 * @param Context $context
 	 * @return array LESS variables
 	 */
-	protected function getLessVars( ResourceLoaderContext $context ) {
+	protected function getLessVars( Context $context ) {
 		$vars = parent::getLessVars( $context );
 		$config = $this->getConfig();
 
@@ -42,10 +46,10 @@ class HasSomeColoursVariablesModule extends ResourceLoaderSkinModule {
 	/**
 	 * Register the config var with the caching stuff so it properly updates the cache
 	 *
-	 * @param ResourceLoaderContext $context
+	 * @param Context $context
 	 * @return array
 	 */
-	public function getDefinitionSummary( ResourceLoaderContext $context ) {
+	public function getDefinitionSummary( Context $context ) {
 		$summary = parent::getDefinitionSummary( $context );
 		$summary[] = [
 			'HasSomeColoursColourOne' => $this->getConfig()->get( 'HasSomeColoursColourOne' ),

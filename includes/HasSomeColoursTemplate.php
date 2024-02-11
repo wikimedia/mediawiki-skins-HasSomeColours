@@ -1,4 +1,7 @@
 <?php
+
+use MediaWiki\ResourceLoader\SkinModule;
+
 /**
  * BaseTemplate class for the HasSomeColours skin
  *
@@ -131,7 +134,7 @@ class HasSomeColoursTemplate extends BaseTemplate {
 	 */
 	protected function getLogo( $id = 'p-logo', $imageOnly = false ) {
 		$config = $this->getSkin()->getContext()->getConfig();
-		$logos = ResourceLoaderSkinModule::getAvailableLogos( $config );
+		$logos = SkinModule::getAvailableLogos( $config );
 		if ( isset( $logos['wordmark'] ) ) {
 			$wordmarkData = $logos['wordmark'];
 			$wordmark = Html::element( 'img', [
