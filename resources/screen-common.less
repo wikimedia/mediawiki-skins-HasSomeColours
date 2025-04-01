@@ -1,6 +1,7 @@
 @import 'variables.less';
 @import 'fonts.less';
 @import 'forms.less';
+@import 'mediawiki.mixins.less';
 
 /* Page layout */
 
@@ -375,6 +376,22 @@ hr {
 	border-color: @grey2;
 	border-style: solid none solid none;
 	margin: 0.5em 0;
+}
+
+ul {
+	margin-top: 0.3em;
+	.margin-inline( 1.6em, 0 );
+	padding: 0;
+}
+
+ol {
+	margin-top: 0.3em;
+	.margin-inline( 3.2em, 0 );
+	padding: 0;
+}
+
+dd {
+	.margin-inline( 1.6em, 0 );
 }
 
 #page-tools {

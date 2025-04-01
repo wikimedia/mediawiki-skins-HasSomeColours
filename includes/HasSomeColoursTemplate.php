@@ -90,7 +90,7 @@ class HasSomeColoursTemplate extends BaseTemplate {
 			Html::rawElement( 'h1',
 				[
 					'class' => 'firstHeading',
-					'lang' => $this->getSkin()->getTitle()->getPageViewLanguage()->getHtmlCode()
+					'lang' => $this->getSkin()->getTitle()->getPageLanguage()->getHtmlCode()
 				],
 				$this->get( 'title' )
 			) .
